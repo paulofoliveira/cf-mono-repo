@@ -1,0 +1,36 @@
+name: Deploy Hello World Python Function To Google Cloud
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'python/helloworld/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v0'
+      with:
+        credentials_json: '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v0'
+
+    - name: 'Use gcloud CLI'
+      run: 'gcloud info'
+    
+    - id: 'deploy'
+      uses: 'google-github-actions/deploy-cloud-functions@v0'
+      with:
+        name: 'helloworldpython'
+        runtime: 'python37'
+        region: 'us-east1'
+        entry_point: hello
+        source_dir: 'python/helloworld'
+
+    - name: Allow unauthenticated requests
+      run: |
+          gcloud functions add-iam-policy-binding helloworldpython --member="allUsers" --role="roles/cloudfunctions.invoker" --region=us-east1
