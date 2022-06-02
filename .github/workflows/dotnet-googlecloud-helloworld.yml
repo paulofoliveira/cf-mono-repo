@@ -3,7 +3,7 @@ name: Deploy Hello World .NET Function to Google Cloud
 on:
   push:
     branchs:
-      - master
+      - main
     paths:
       - 'dotnet/helloworld/**'
 jobs:
