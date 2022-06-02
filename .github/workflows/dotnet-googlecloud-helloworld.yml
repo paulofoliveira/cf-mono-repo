@@ -1,6 +1,6 @@
 name: Deploy Cloud Function
 on:
-  pull_request:
+  push:
     branches: [ main ]
     paths:
       - 'dotnet/helloworld/**'
@@ -31,6 +31,6 @@ jobs:
         entry_point: HelloWorld.Function
         source_dir: 'dotnet/helloworld'
 
-    - name: Make the URL Aunthenticated
+    - name: Allow unauthenticated requests
       run: |
           gcloud functions add-iam-policy-binding helloworlddotnet --member="allUsers" --role="roles/cloudfunctions.invoker" --region=us-east1
