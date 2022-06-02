@@ -28,6 +28,7 @@ jobs:
         name: 'helloworlddotnet'
         runtime: 'dotnet3'
         region: 'us-east1'
+        entry_point: HelloWorld.Function
         source_dir: 'dotnet/helloworld'
 
     - name: Make the URL Aunthenticated
