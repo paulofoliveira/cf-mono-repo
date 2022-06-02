@@ -1,9 +1,9 @@
-name: Deploy Hello World .NET Core Function To Google Cloud
+name: Deploy Hello World Python Function To Google Cloud
 on:
   push:
     branches: [ main ]
     paths:
-      - 'dotnet/helloworld/**'
+      - 'python/helloworld/**'
 
 jobs:
   build:
@@ -18,19 +18,16 @@ jobs:
 
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v0'
-
-    - name: 'Use gcloud CLI'
-      run: 'gcloud info'
     
     - id: 'deploy'
       uses: 'google-github-actions/deploy-cloud-functions@v0'
       with:
-        name: 'helloworlddotnet'
-        runtime: 'dotnet3'
+        name: 'helloworldpython'
+        runtime: 'python37'
         region: 'us-east1'
-        entry_point: HelloWorld.Function
-        source_dir: 'dotnet/helloworld'
+        entry_point: hello
+        source_dir: 'python/helloworld'
 
     - name: Allow unauthenticated requests
       run: |
-          gcloud functions add-iam-policy-binding helloworlddotnet --member="allUsers" --role="roles/cloudfunctions.invoker" --region=us-east1
+          gcloud functions add-iam-policy-binding helloworldpython --member="allUsers" --role="roles/cloudfunctions.invoker" --region=us-east1
