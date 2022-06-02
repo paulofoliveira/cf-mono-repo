@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    
+
     - id: 'auth'
       uses: 'google-github-actions/auth@v0'
       with:
@@ -28,8 +28,8 @@ jobs:
         name: 'helloworlddotnet'
         runtime: 'dotnet3'
         region: 'us-east1'
+        source_dir: 'dotnet/helloworld'
 
     - name: Make the URL Aunthenticated
       run: |
           gcloud functions add-iam-policy-binding helloworlddotnet --member="allUsers" --role="roles/cloudfunctions.invoker"
-
