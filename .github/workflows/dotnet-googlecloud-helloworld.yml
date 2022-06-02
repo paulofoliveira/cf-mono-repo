@@ -30,7 +30,4 @@ jobs:
     - name: Make the URL Aunthenticated
       run: |
           gcloud functions add-iam-policy-binding helloworlddotnet --member="allUsers" --role="roles/cloudfunctions.invoker"
-    
-    - name: Test the URL
-        run: curl "${{ steps.deploy.outputs.url }}"
 
