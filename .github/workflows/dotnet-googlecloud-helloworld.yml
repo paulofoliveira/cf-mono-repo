@@ -1,6 +1,6 @@
 name: Deploy Cloud Function
 on:
-  push:
+  pull_request:
     branches: [ main ]
     paths:
       - 'dotnet/helloworld/**'
