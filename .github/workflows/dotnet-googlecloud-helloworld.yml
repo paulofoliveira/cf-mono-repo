@@ -5,7 +5,7 @@ on:
     paths:
       - 'dotnet/helloworld/**'
 
-job:
+jobs:
   job_id:
     steps:
     - id: 'auth'
