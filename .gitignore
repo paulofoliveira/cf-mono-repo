@@ -10,3 +10,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+
+# Sobre Visual Studio Code
+
+.vscode
