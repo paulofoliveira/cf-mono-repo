@@ -33,4 +33,4 @@ jobs:
 
     - name: Make the URL Aunthenticated
       run: |
-          gcloud functions add-iam-policy-binding helloworlddotnet --member="allUsers" --role="roles/cloudfunctions.invoker"
+          gcloud functions add-iam-policy-binding helloworlddotnet --member="allUsers" --role="roles/cloudfunctions.invoker" --region=us-east1
