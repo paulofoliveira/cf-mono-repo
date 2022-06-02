@@ -1,0 +1,39 @@
+name: Deploy Hello World .NET Function to Google Cloud
+
+on:
+  push:
+    branchs:
+      - master
+    paths:
+      - 'dotnet/helloworld/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest      
+    steps:
+     - uses: actions/checkout@v2
+
+     - name: Setup GCP Service Account
+       uses: google-github-actions/setup-gcloud@master
+       with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+        export_default_credentials: true
+
+    - name: Deploy Cloud Function
+      id: deploy
+      uses: google-github-actions/deploy-functions@main
+      with:
+        name: helloworld-em-dotnet
+        runtime: dotnet3
+        entry_point: HelloWorld.Function
+        region: us-east1
+
+    - name: Make the URL Unauthenticated
+      run: |
+        gcloud functions add-iam-policy-binding helloworld-em-dotnet --member="allUsers" --role="roles/cloudfunctions.invoker"
+
+    - name: Test the URL
+      run: curl "${{ steps.deploy.outputs.url }}"
+    
+
+
