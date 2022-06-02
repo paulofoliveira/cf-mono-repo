@@ -6,7 +6,7 @@ on:
       - 'dotnet/helloworld/**'
 
 jobs:
-  job_id:
+  build:
     runs-on: ubuntu-latest
     steps:
     - id: 'auth'
@@ -26,4 +26,11 @@ jobs:
         name: 'helloworlddotnet'
         runtime: 'dotnet3'
         region: 'us-east1'
+
+    - name: Make the URL Aunthenticated
+      run: |
+          gcloud functions add-iam-policy-binding helloworlddotnet --member="allUsers" --role="roles/cloudfunctions.invoker"
+    
+    - name: Test the URL
+        run: curl "${{ steps.deploy.outputs.url }}"
 
