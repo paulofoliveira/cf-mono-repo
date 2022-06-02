@@ -1,4 +1,4 @@
-name: Deploy Hello World .NET Core Function To Google Cloud
+name: Deploy .NET Core Function
 on:
   push:
     branches: [ main ]

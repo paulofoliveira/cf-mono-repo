@@ -1,4 +1,4 @@
-name: Deploy Hello World Python Function To Google Cloud
+name: Deploy Python Function
 on:
   push:
     branches: [ main ]
