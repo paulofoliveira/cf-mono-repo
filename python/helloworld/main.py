@@ -1,2 +1,2 @@
 def hello(request):
-    return "Hello World Google Cloud Functions!"
+    return "Hello World Function Python em Google Cloud!"
