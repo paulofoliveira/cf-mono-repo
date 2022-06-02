@@ -8,8 +8,7 @@ namespace HelloWorld
     {
         public async Task HandleAsync(HttpContext context)
         {
-            var name = context.Request.Query["name"];
-            await context.Response.WriteAsync($"Hello {name} Google Cloud Functions!");
+            await context.Response.WriteAsync($"Hello World Google Cloud Functions!");
         }
     }
 }
