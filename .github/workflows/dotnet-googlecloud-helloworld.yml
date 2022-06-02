@@ -5,32 +5,24 @@ on:
     paths:
       - 'dotnet/helloworld/**'
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+job:
+  job_id:
     steps:
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v0'
+      with:
+        credentials_json: '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}'
 
-      - uses: actions/checkout@v2
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v0'
 
-      - name: Setup GCP Service Account
-        uses: google-github-actions/setup-gcloud@v0
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
-          export_default_credentials: true
+    - name: 'Use gcloud CLI'
+      run: 'gcloud info'
+    
+    - id: 'deploy'
+      uses: 'google-github-actions/deploy-cloud-functions@v0'
+      with:
+        name: 'helloworlddotnet'
+        runtime: 'dotnet3'
+        region: 'us-east1'
 
-      - name: Deploy Cloud Function
-        id: deploy
-        uses: google-github-actions/deploy-cloud-functions@main
-        with:
-          name: helloworlddotnet
-          runtime: dotnet3
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          entry_point: HelloWorld.Function
-
-      - name: Make the URL Aunthenticated
-        run: |
-          gcloud functions add-iam-policy-binding helloworlddotnet --member="allUsers" --role="roles/cloudfunctions.invoker"
-
-      - name: Test the Url
-        run: curl "${{ steps.deploy.outputs.url }}"
