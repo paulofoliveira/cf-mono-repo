@@ -1,4 +1,4 @@
-name: Deploy .NET Core Function
+name: Deploy Cloud Function
 on:
   workflow_call:    
     secrets:
@@ -17,6 +17,9 @@ on:
       source_dir:
         required: true
         type: string
+      region:      
+        type: string
+        default: 'us-east1'
 
 jobs:
   build:
@@ -33,14 +36,15 @@ jobs:
       uses: 'google-github-actions/setup-gcloud@v0'
     
     - id: 'deploy'
+      name: 'Deploy Cloud Function'
       uses: 'google-github-actions/deploy-cloud-functions@v0'
       with:
         name: '${{inputs.function_name}}'
         runtime: '${{inputs.runtime}}'
-        region: 'us-east1'
+        region: ${{inputs.region}}
         entry_point: ${{inputs.entrypoint}}
         source_dir: '${{inputs.source_dir}}'
 
     - name: Allow unauthenticated requests
       run: |
-          gcloud functions add-iam-policy-binding ${{inputs.function_name}} --member="allUsers" --role="roles/cloudfunctions.invoker" --region=us-east1
+          gcloud functions add-iam-policy-binding ${{inputs.function_name}} --member="allUsers" --role="roles/cloudfunctions.invoker" --region=${{inputs.region}}
