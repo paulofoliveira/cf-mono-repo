@@ -8,7 +8,7 @@ namespace HelloWorld
     {
         public async Task HandleAsync(HttpContext context)
         {
-            await context.Response.WriteAsync($"Hello World Function .NET Core em Google Cloud!");
+            await context.Response.WriteAsync($"Hello World Function .NET Core em Google Cloud!!");
         }
     }
 }
