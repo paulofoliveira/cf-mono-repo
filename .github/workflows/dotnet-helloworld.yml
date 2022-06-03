@@ -7,7 +7,7 @@ on:
 
 jobs:
   job_name:
-    uses: ${{GITHUB_REPOSITORY}}/.github/workflows/deployFunction.yml@main
+    uses: ${{env.GITHUB_REPOSITORY}}/.github/workflows/deployFunction.yml@main
     with:
       function_name: helloworlddotnet
       runtime: dotnet3
