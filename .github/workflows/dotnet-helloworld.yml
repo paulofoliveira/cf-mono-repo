@@ -6,7 +6,7 @@ on:
       - 'dotnet/helloworld/**'
 
 jobs:
-  job_name:
+  deploy:
     uses: oliveiracdz/cf-mono-repo/.github/workflows/deployFunction.yml@main
     with:
       function_name: helloworlddotnet
