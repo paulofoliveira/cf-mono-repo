@@ -7,7 +7,7 @@ on:
       
 jobs:
   deploy:
-    uses: oliveiracdz/cf-mono-repo/.github/workflows/deployFunction.yml@main
+    uses: paulofoliveira/cf-mono-repo/.github/workflows/deployFunction.yml@main
     with:
       function_name: helloworldpython
       runtime: python37
