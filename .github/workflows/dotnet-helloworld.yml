@@ -6,28 +6,12 @@ on:
       - 'dotnet/helloworld/**'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-
-    - id: 'auth'
-      uses: 'google-github-actions/auth@v0'
-      with:
-        credentials_json: '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}'
-
-    - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v0'
-    
-    - id: 'deploy'
-      uses: 'google-github-actions/deploy-cloud-functions@v0'
-      with:
-        name: 'helloworlddotnet'
-        runtime: 'dotnet3'
-        region: 'us-east1'
-        entry_point: HelloWorld.Function
-        source_dir: 'dotnet/helloworld'
-
-    - name: Allow unauthenticated requests
-      run: |
-          gcloud functions add-iam-policy-binding helloworlddotnet --member="allUsers" --role="roles/cloudfunctions.invoker" --region=us-east1
+  deploy:
+    uses: paulofoliveira/cf-mono-repo/.github/workflows/deployFunction.yml@main
+    with:
+      function_name: helloworlddotnet
+      runtime: dotnet3
+      entrypoint: HelloWorld.Function
+      source_dir: dotnet/helloworld
+    secrets:
+      GCP_SERVICE_ACCOUNT_KEY: ${{secrets.GCP_SERVICE_ACCOUNT_KEY}}
