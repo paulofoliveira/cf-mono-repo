@@ -7,7 +7,7 @@ on:
 
 jobs:
   job_name:
-    uses: ${{env.GITHUB_REPOSITORY}}/.github/workflows/deployFunction.yml@main
+    uses: oliveiracdz/cf-mono-repo/.github/workflows/deployFunction.yml@main
     with:
       function_name: helloworlddotnet
       runtime: dotnet3
