@@ -1,0 +1,46 @@
+name: Deploy .NET Core Function
+on:
+  workflow_dispatch:    
+    secrets:
+      GCP_SERVICE_ACCOUNT_KEY:
+        required: true
+    inputs:
+      function_name:
+        required: true
+        type: string
+      runtime:
+        required: true
+        type: string
+      entrypoint:
+        required: true
+        type: string
+      source_dir:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v0'
+      with:
+        credentials_json: '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v0'
+    
+    - id: 'deploy'
+      uses: 'google-github-actions/deploy-cloud-functions@v0'
+      with:
+        name: '${{inputs.function_name}}'
+        runtime: '${{inputs.runtime}}'
+        region: 'us-east1'
+        entry_point: ${{inputs.entrypoint}}
+        source_dir: '${{inputs.source_dir}}'
+
+    - name: Allow unauthenticated requests
+      run: |
+          gcloud functions add-iam-policy-binding ${{inputs.function_name}} --member="allUsers" --role="roles/cloudfunctions.invoker" --region=us-east1
