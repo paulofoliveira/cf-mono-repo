@@ -11,7 +11,7 @@ jobs:
     with:
       function_name: helloworlddotnet
       runtime: dotnet3
-      enrypoint: HelloWorld.Function
+      entrypoint: HelloWorld.Function
       source_dir: dotnet/helloworld
     secrets:
       GCP_SERVICE_ACCOUNT_KEY: ${{secrets.GCP_SERVICE_ACCOUNT_KEY}}
